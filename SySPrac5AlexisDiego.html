@@ -1,0 +1,477 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Pr&aacute;ctica 5: Series de Fourier en tiempo continuo</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-10-15"><meta name="DC.source" content="SySPrac5AlexisDiego.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Pr&aacute;ctica 5: Series de Fourier en tiempo continuo</h1><!--introduction--><p>Integrantes</p><div><ul><li>Alvarez Garcia Elian Alexander</li><li>Diego Vertiz Alexis</li><li>Marquina Zendejas Victor</li><li>Mendivil Herrera Jesus Alejandro</li></ul></div><p>UPIITA IPN Se&ntilde;ales y Sistemas Grupo: 2TV1</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Objetivos</a></li><li><a href="#2">Introduccion</a></li><li><a href="#4">Problema 1 - Ejemplo 6.1</a></li><li><a href="#9">Problema 2 - Ejemplo 6.2</a></li><li><a href="#14">Problema 3 - Ejemplo 6.4</a></li><li><a href="#18">Problema 4 - Ejercicio 6.5</a></li><li><a href="#21">Problema 5 - Ejemplo 6.7</a></li><li><a href="#24">Problema 6 - Ejemplo C6.2</a></li><li><a href="#26">Problema 7 - Comparacion de coefecientes</a></li><li><a href="#28">Tabla del trapecio compuesto</a></li><li><a href="#30">Referencias</a></li></ul></div><h2 id="1">Objetivos</h2><div><ul><li>Realizar gr&aacute;ficas de series de Fourier exponenciales y trigonom&eacute;tricas en tiempo continuo</li><li>Manipulaci&oacute;n de instrucciones en MATLAB</li><li>Calculo n&uacute;merico de los coeficientes de Fourier</li></ul></div><h2 id="2">Introduccion</h2><p>Existen tres maneras de representar una serie de Fourier, cada una con sus respectivas ventajas matem&aacute;ticas respecto a qu&eacute; tipo de funci&oacute;n, &eacute;sta pretende aproximar. La serie de Fourier exponencial nos permite modelar expresiones tanto reales como imaginarias dadas sus caracter&iacute;sticas exponenciales.</p><p><img src="SySPrac5AlexisDiego_eq00368887628170572917.png" alt="$$s_f(t)= \sum_{-\infty}^{\infty} c_n e^{jntw_0}$$"></p><p>Donde en este caso especial los coeficientes de Fourier son llamados <img src="SySPrac5AlexisDiego_eq02551001041140951987.png" alt="$$c_n$">$; los cuales se obtienen aplicando algunos despejes de la forma trigonom&eacute;tricas y finalmente se calculan de la siguiente manera</p><p><img src="SySPrac5AlexisDiego_eq09856526184178834147.png" alt="$$c_n = 1/T_0 \int \limits_{t_0}^{t_0 + T_0} f(x) e^{-nw_0jt}\cdot dt$$"></p><p>Como es posible apreciar en esta &uacute;ltima ecuaci&oacute;n el c&aacute;lculo de <img src="SySPrac5AlexisDiego_eq02551001041140951987.png" alt="$$c_n$">$ est&aacute; en funci&oacute;n del elemento a calcular. Esto es que var&iacute;a en funci&oacute;n de n que es un par&aacute;metro dentro de la serie. Otra forma de encontrar los coeficientes de Fourier de forma num&eacute;rica es a trav&eacute;s de software. En el cap&iacute;tulo 6.6 del libro Continuous-Time Signal Analysis se mencionan algunos pasos para llegar a un m&eacute;todo anal&iacute;tico</p><p>Aplicando sobre un intervalo de muestreo T con periodo <img src="SySPrac5AlexisDiego_eq11820481462125488922.png" alt="$$T_0=1$"> en la se&ntilde;al <img src="SySPrac5AlexisDiego_eq06787901769351252476.png" alt="$$x(t)$"> , tenemos que <img src="SySPrac5AlexisDiego_eq01901309931402616452.png" alt="$$N_0=T_0/T$"> donde <img src="SySPrac5AlexisDiego_eq00115059390746233418.png" alt="$$N_0$"> es el n&uacute;mero de muestras en un peri&oacute;do <img src="SySPrac5AlexisDiego_eq00645987002107359863.png" alt="$$T_0$">$. Para encontrar la relaci&oacute;n entre <img src="SySPrac5AlexisDiego_eq12508928118007287626.png" alt="$$C_n$"> y <img src="SySPrac5AlexisDiego_eq06787901769351252476.png" alt="$$x(t)$"> consideramos la definici&oacute;n de los coeficientes de Fourier; donde al aplicarle l&iacute;mites en lugar de integrar se llega a las siguientes dos relaciones</p><p><img src="SySPrac5AlexisDiego_eq09494062111088432998.png" alt="$$N_0=T_0/ T $$"></p><p><img src="SySPrac5AlexisDiego_eq18087748791206746736.png" alt="$$\Omega_0=T\omega_0=2 \pi/N_0 $$"></p><p>Cabe destacar en esta s&iacute;ntesis del m&eacute;todo un concepto que traducido al espa&ntilde;ol es llamado "Error de Solape"; el cu&aacute;l es b&aacute;sicamente una aproximaci&oacute;n cuando el l&iacute;mite de <img src="SySPrac5AlexisDiego_eq18036584924455361314.png" alt="$$T_0-&gt;0$"> y se indetermina el l&iacute;mite. Para este caso el m&eacute;todo num&eacute;rico tiende a valores muy peque&ntilde;os cercando al cero, pero nunca siendo cero. Ello implica que la Serie de Fourier tenga una ligera diferencia a la funci&oacute;n original.</p><p><img src="SySPrac5AlexisDiego_eq13941671086950591679.png" alt="$$C_n=1/N_0 \sum_{k=0}^{N_0-1} x(kT) e^{-jkn\omega_0}$$"></p><p>Aplicando las dos ultimas relaciones en la ecuaci&oacute;n anterior, se tiene una nueva igualdad entre los valores de <img src="SySPrac5AlexisDiego_eq12508928118007287626.png" alt="$$C_n$">$</p><p><img src="SySPrac5AlexisDiego_eq04189906563022458898.png" alt="$$C_{n+N_0}=C_n$"></p><h2 id="4">Problema 1 - Ejemplo 6.1</h2><p>Para 4 armonicos</p><pre class="codeinput">a0=0.504;
+an=@(n) (2*0.504)/(1+(16*n*n));
+bn=@(n) (8*0.504*n)/(1+(16*n*n));
+t0=0;
+tf=3.1416;
+f=@(t) exp(-t/2);
+armo=4;
+a=-7;
+b=7;
+sft(t0,tf,an,bn,a0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_01.png" alt=""> <p>Para 15 armonicos</p><pre class="codeinput">clf;
+a0=0.504;
+an=@(n) (2*0.504)/(1+(16*n*n));
+bn=@(n) (8*0.504*n)/(1+(16*n*n));
+t0=0;
+tf=3.1416;
+f=@(t) exp(-t/2);
+a=-7;
+b=7;
+armo=15;
+sft(t0,tf,an,bn,a0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_02.png" alt=""> <h2 id="9">Problema 2 - Ejemplo 6.2</h2><p>Para 4 armonicos</p><pre class="codeinput">clf;
+d0=0;
+dn=@(n) (12/((n*pi).^2)).*abs(sin(n*pi/2)).*exp((-pi/2)*n*1i);
+t0=-0.5;
+tf=1.5;
+f=@(t) ((6*t).*(t&gt;=-0.5 &amp; t&lt;0.5))+((6-6*t).*(t&gt;=0.5 &amp; t&lt;1.5));
+armo=4;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_03.png" alt=""> <p>Para 15 armonicos</p><pre class="codeinput">clf;
+d0=0;
+dn=@(n) (12/((n*pi).^2)).*abs(sin(n*pi/2)).*exp((-pi/2)*n*1i);
+t0=-0.5;
+tf=1.5;
+f=@(t) ((6*t).*(t&gt;=-0.5 &amp; t&lt;0.5))+((6-6*t).*(t&gt;=0.5 &amp; t&lt;1.5));
+armo=15;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_04.png" alt=""> <h2 id="14">Problema 3 - Ejemplo 6.4</h2><p>Para 4 armonicos</p><pre class="codeinput">clf;
+d0=1/2;
+dn=@(n) sin((pi*n)/2)./(n*pi);
+t0=-pi;
+tf=pi;
+f=@(t) (0.*(-pi&lt;=t&lt;=-pi/2 &amp; pi/2&lt;=t&lt;=pi)) + (1.*(t&gt;-pi/2 &amp; t&lt;pi/2));
+armo=4;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_05.png" alt=""> <p>Para 15 armonicos</p><pre class="codeinput">clf;
+d0=1/2;
+dn=@(n) sin((pi*n)/2)./(n*pi);
+t0=-pi;
+tf=pi;
+f=@(t) (0.*(-pi&lt;=t&lt;=-pi/2 &amp; pi/2&lt;=t&lt;=pi)) + (1.*(t&gt;-pi/2 &amp; t&lt;pi/2));
+armo=15;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_06.png" alt=""> <h2 id="18">Problema 4 - Ejercicio 6.5</h2><p>Para 4 armonicos</p><pre class="codeinput">clf;
+d0=2/pi;
+dn=@(n) 2/(pi*(1-(4*n*n)));
+t0=0;
+tf=pi;
+f=@(t) abs(sin(t));
+armo=4;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_07.png" alt=""> <p>Para 15 armonicos</p><pre class="codeinput">clf;
+d0=2/pi;
+dn=@(n) 2/(pi*(1-(4*n*n)));
+t0=0;
+tf=pi;
+f=@(t) abs(sin(t));
+armo=15;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_08.png" alt=""> <h2 id="21">Problema 5 - Ejemplo 6.7</h2><p>Para 4 armonicos</p><pre class="codeinput">clf;
+d0=1/3;
+dn=@(n) 1/3;
+t0=-3/2;
+tf=3/2;
+armo=4;
+a=-7;
+b=7;
+sfco(t0,tf,dn,d0,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_09.png" alt=""> <p>Para 15 armonicos</p><pre class="codeinput">clf;
+d0=2/pi;
+dn=@(n) 2/(pi*(1-(4*n*n)));
+t0=0;
+tf=pi;
+armo=15;
+a=-7;
+b=7;
+sfco(t0,tf,dn,d0,armo,a,b)
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_10.png" alt=""> <h2 id="24">Problema 6 - Ejemplo C6.2</h2><pre class="codeinput">clf;
+x =@(t) ((6*t).*(t&gt;=-0.5 &amp; t&lt;0.5))+((6-6*t).*(t&gt;=0.5 &amp; t&lt;1.5));
+t = [-1.5:0.001:2.5];
+sumterms = zeros(16, length(t));
+sumterms(1,:) = 0;
+<span class="keyword">for</span> n = 1:size(sumterms,1)-1;
+sumterms(n+1,:) = (12*sin(n*pi/2)*sin(n*pi*t))/(n*pi*pi*n);
+<span class="keyword">end</span>
+x_N = cumsum (sumterms);
+figure(1);
+clf;
+ind = 0;
+<span class="keyword">for</span> N = [0,1:2:size(sumterms, 1)-1];
+ind = ind+1;
+subplot (3,3,ind);
+plot (t,x_N(N+1,:), <span class="string">'k'</span>, t ,x(mod(t,pi)),<span class="string">'--r'</span>);
+axis ([-0.5 1.5 -3 3]);
+xlabel (<span class="string">'t'</span>);
+ylabel ([<span class="string">'x_{'</span>,num2str(N),<span class="string">'} (t)'</span>]);
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="SySPrac5AlexisDiego_11.png" alt=""> <h2 id="26">Problema 7 - Comparacion de coefecientes</h2><pre class="language-matlab"><span class="keyword">function</span> integral=trapeciocom(f,a,b,n)
+f0=subs(f,a);
+fn=subs(f,b);
+h=(b-a)/n;
+fs=0;
+<span class="keyword">for</span> i=1:n-1
+    x(i)=a+h*i;
+    fs=fs+subs(f,x(i));
+<span class="keyword">end</span>
+integral=0.5*h*(f0+2*fs+fn);
+</pre><pre class="codeinput">f=exp(-t/2);
+a=0;
+b=pi;
+n=15;
+trapeciocom(f,a,b,n);
+Integral=1.5857;
+</pre><h2 id="28">Tabla del trapecio compuesto</h2><pre class="codeinput">Dn = {<span class="string">'D0'</span>;<span class="string">'D1'</span>;<span class="string">'D2'</span>;<span class="string">'D3'</span>;<span class="string">'D4'</span>};
+Aritmetico = [0.504;0.0296 - 0.1186i;0.0078 - 0.0620i;0.0035 - 0.0417i;0.0020 - 0.0314i];
+Trapecio = [0.5047+0.0000i;0.0301-0.1168i;0.0082-0.0583i;0.0040-0.0361i;0.0025-0.0237i];
+Lathi = [0.504281105948516 + 0.00000000000000i;0.0296650836043681 - 0.118647676913452i;0.00775972886772522 - 0.0620525144086751i;0.00347937240545304 - 0.0417144902523740i;0.00196376005535414 - 0.0313695156147827i];
+TrapeciovsAritmetico = abs(Aritmetico-Trapecio);
+LathivsAritmetico = abs(Aritmetico-Lathi);
+T=table(Dn,Aritmetico,Trapecio,Lathi,TrapeciovsAritmetico,LathivsAritmetico)
+</pre><pre class="codeoutput">
+T =
+
+  5&times;6 table
+
+     Dn       Aritmetico         Trapecio              Lathi           TrapeciovsAritmetico    LathivsAritmetico
+    ____    ______________    ______________    ___________________    ____________________    _________________
+
+    'D0'     0.504+0i         0.5047+0i           0.50428+0i              0.0007               0.00028111       
+    'D1'    0.0296-0.1186i    0.0301-0.1168i     0.029665-0.11865i     0.0018682               8.0678e-05       
+    'D2'    0.0078-0.062i     0.0082-0.0583i    0.0077597-0.062053i    0.0037216               6.6178e-05       
+    'D3'    0.0035-0.0417i     0.004-0.0361i    0.0034794-0.041714i    0.0056223               2.5208e-05       
+    'D4'     0.002-0.0314i    0.0025-0.0237i    0.0019638-0.03137i     0.0077162               4.7356e-05       
+
+</pre><p>Se puede concluir que es mejor el metodo que ocupa el libro de Lathi, ya que la diferencia es menor.</p><h2 id="30">Referencias</h2><div><ul><li>Lathi, B. (2005). Linear Systems and Signals. New York: Oxford University Press.</li></ul></div><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Práctica 5: Series de Fourier en tiempo continuo
+% Integrantes
+%
+% * Alvarez Garcia Elian Alexander
+% * Diego Vertiz Alexis
+% * Marquina Zendejas Victor 
+% * Mendivil Herrera Jesus Alejandro
+%
+% UPIITA IPN   
+% Señales y Sistemas
+% Grupo: 2TV1 
+%
+%% Objetivos
+%
+% * Realizar gráficas de series de Fourier exponenciales y trigonométricas en tiempo continuo
+% * Manipulación de instrucciones en MATLAB
+% * Calculo númerico de los coeficientes de Fourier
+%
+%% Introduccion
+% Existen tres maneras de representar una serie de Fourier, cada una con
+% sus respectivas ventajas matemáticas respecto a qué tipo de función, ésta
+% pretende aproximar. 
+% La serie de Fourier exponencial nos permite
+% modelar expresiones tanto reales como imaginarias dadas sus
+% características exponenciales. 
+% 
+% $$s_f(t)= \sum_{-\infty}^{\infty} c_n e^{jntw_0}$$ 
+% 
+% Donde en este caso especial los coeficientes de Fourier son llamados
+% $$c_n$$; los cuales se obtienen aplicando algunos despejes de la forma
+% trigonométricas y finalmente se calculan de la siguiente manera
+%
+% $$c_n = 1/T_0 \int \limits_{t_0}^{t_0 + T_0} f(x) e^{-nw_0jt}\cdot dt$$
+% 
+% Como es posible apreciar en esta última ecuación el cálculo de $$c_n$$
+% está en función del elemento a calcular. Esto es que varía en función de
+% n que es un parámetro dentro de la serie. 
+% Otra forma de encontrar los coeficientes de Fourier de forma numérica es
+% a través de software. En el capítulo 6.6 del libro Continuous-Time Signal 
+% Analysis se mencionan algunos pasos para llegar a un método analítico
+%
+% Aplicando sobre un intervalo de muestreo T con periodo $$T_0=1$ en la 
+% señal $$x(t)$ , tenemos que $$N_0=T_0/T$ donde $$N_0$ es el 
+% número de muestras en un periódo $$T_0$$. Para encontrar la relación
+% entre $$C_n$ y $$x(t)$ consideramos la definición de los coeficientes de 
+% Fourier; donde al aplicarle límites en lugar de integrar se llega a las siguientes dos relaciones
+% 
+% $$N_0=T_0/ T $$
+%
+% $$\Omega_0=T\omega_0=2 \pi/N_0 $$
+%   
+% Cabe destacar en esta síntesis del método un concepto que traducido al
+% español es llamado "Error de Solape"; el cuál es básicamente una
+% aproximación cuando el límite de $$T_0->0$ y se indetermina el límite.
+% Para este caso el método numérico tiende a valores muy pequeños cercando
+% al cero, pero nunca siendo cero. Ello implica que la Serie de Fourier
+% tenga una ligera diferencia a la función original.
+%
+% $$C_n=1/N_0 \sum_{k=0}^{N_0-1} x(kT) e^{-jkn\omega_0}$$
+% 
+% Aplicando las dos ultimas relaciones en la ecuación anterior, se tiene 
+% una nueva igualdad entre los valores de $$C_n$$
+%   
+% $$C_{n+N_0}=C_n$
+%   
+%%
+%% Problema 1 - Ejemplo 6.1
+% Para 4 armonicos
+%%
+a0=0.504;
+an=@(n) (2*0.504)/(1+(16*n*n));
+bn=@(n) (8*0.504*n)/(1+(16*n*n));
+t0=0;
+tf=3.1416;
+f=@(t) exp(-t/2);
+armo=4;
+a=-7;
+b=7;
+sft(t0,tf,an,bn,a0,f,armo,a,b)
+%%
+% Para 15 armonicos
+%%
+clf;
+a0=0.504;
+an=@(n) (2*0.504)/(1+(16*n*n));
+bn=@(n) (8*0.504*n)/(1+(16*n*n));
+t0=0;
+tf=3.1416;
+f=@(t) exp(-t/2);
+a=-7;
+b=7;
+armo=15;
+sft(t0,tf,an,bn,a0,f,armo,a,b)
+%%
+%% Problema 2 - Ejemplo 6.2
+% Para 4 armonicos
+%%
+clf;
+d0=0;
+dn=@(n) (12/((n*pi).^2)).*abs(sin(n*pi/2)).*exp((-pi/2)*n*1i);
+t0=-0.5;
+tf=1.5;
+f=@(t) ((6*t).*(t>=-0.5 & t<0.5))+((6-6*t).*(t>=0.5 & t<1.5));
+armo=4;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%%
+% Para 15 armonicos
+%%
+clf;
+d0=0;
+dn=@(n) (12/((n*pi).^2)).*abs(sin(n*pi/2)).*exp((-pi/2)*n*1i);
+t0=-0.5;
+tf=1.5;
+f=@(t) ((6*t).*(t>=-0.5 & t<0.5))+((6-6*t).*(t>=0.5 & t<1.5));
+armo=15;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%%
+%% Problema 3 - Ejemplo 6.4
+% Para 4 armonicos
+clf;
+d0=1/2;
+dn=@(n) sin((pi*n)/2)./(n*pi);
+t0=-pi;
+tf=pi;
+f=@(t) (0.*(-pi<=t<=-pi/2 & pi/2<=t<=pi)) + (1.*(t>-pi/2 & t<pi/2));
+armo=4;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%%
+% Para 15 armonicos
+clf;
+d0=1/2;
+dn=@(n) sin((pi*n)/2)./(n*pi);
+t0=-pi;
+tf=pi;
+f=@(t) (0.*(-pi<=t<=-pi/2 & pi/2<=t<=pi)) + (1.*(t>-pi/2 & t<pi/2));
+armo=15;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%%
+%%
+%% Problema 4 - Ejercicio 6.5
+% Para 4 armonicos
+clf;
+d0=2/pi;
+dn=@(n) 2/(pi*(1-(4*n*n)));
+t0=0;
+tf=pi;
+f=@(t) abs(sin(t));
+armo=4;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%%
+% Para 15 armonicos
+clf;
+d0=2/pi;
+dn=@(n) 2/(pi*(1-(4*n*n)));
+t0=0;
+tf=pi;
+f=@(t) abs(sin(t));
+armo=15;
+a=-7;
+b=7;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%%
+%% Problema 5 - Ejemplo 6.7
+% Para 4 armonicos
+clf;
+d0=1/3;
+dn=@(n) 1/3;
+t0=-3/2;
+tf=3/2;
+armo=4;
+a=-7;
+b=7;
+sfco(t0,tf,dn,d0,armo,a,b)
+%%
+% Para 15 armonicos
+clf;
+d0=2/pi;
+dn=@(n) 2/(pi*(1-(4*n*n)));
+t0=0;
+tf=pi;
+armo=15;
+a=-7;
+b=7;
+sfco(t0,tf,dn,d0,armo,a,b)
+%%
+%% Problema 6 - Ejemplo C6.2
+clf;
+x =@(t) ((6*t).*(t>=-0.5 & t<0.5))+((6-6*t).*(t>=0.5 & t<1.5));
+t = [-1.5:0.001:2.5];
+sumterms = zeros(16, length(t));
+sumterms(1,:) = 0;
+for n = 1:size(sumterms,1)-1;
+sumterms(n+1,:) = (12*sin(n*pi/2)*sin(n*pi*t))/(n*pi*pi*n);
+end
+x_N = cumsum (sumterms); 
+figure(1); 
+clf; 
+ind = 0;
+for N = [0,1:2:size(sumterms, 1)-1];
+ind = ind+1; 
+subplot (3,3,ind);
+plot (t,x_N(N+1,:), 'k', t ,x(mod(t,pi)),'REPLACE_WITH_DASH_DASHr'); 
+axis ([-0.5 1.5 -3 3]);
+xlabel ('t'); 
+ylabel (['x_{',num2str(N),'} (t)']);
+end
+%%
+%% Problema 7 - Comparacion de coefecientes
+%   function integral=trapeciocom(f,a,b,n)
+%   f0=subs(f,a);
+%   fn=subs(f,b);
+%   h=(b-a)/n;
+%   fs=0;
+%   for i=1:n-1
+%       x(i)=a+h*i;
+%       fs=fs+subs(f,x(i));
+%   end
+%   integral=0.5*h*(f0+2*fs+fn);
+%%
+f=exp(-t/2);
+a=0;
+b=pi;
+n=15;
+trapeciocom(f,a,b,n);
+Integral=1.5857;
+
+%% Tabla del trapecio compuesto
+Dn = {'D0';'D1';'D2';'D3';'D4'};
+Aritmetico = [0.504;0.0296 - 0.1186i;0.0078 - 0.0620i;0.0035 - 0.0417i;0.0020 - 0.0314i];
+Trapecio = [0.5047+0.0000i;0.0301-0.1168i;0.0082-0.0583i;0.0040-0.0361i;0.0025-0.0237i];
+Lathi = [0.504281105948516 + 0.00000000000000i;0.0296650836043681 - 0.118647676913452i;0.00775972886772522 - 0.0620525144086751i;0.00347937240545304 - 0.0417144902523740i;0.00196376005535414 - 0.0313695156147827i];
+TrapeciovsAritmetico = abs(Aritmetico-Trapecio);
+LathivsAritmetico = abs(Aritmetico-Lathi);
+T=table(Dn,Aritmetico,Trapecio,Lathi,TrapeciovsAritmetico,LathivsAritmetico)
+%%
+% Se puede concluir que es mejor el metodo que ocupa el libro de Lathi, ya
+% que la diferencia es menor.
+%% Referencias
+% * Lathi, B. (2005). Linear Systems and Signals. New York: Oxford University Press.
+##### SOURCE END #####
+--></body></html>
